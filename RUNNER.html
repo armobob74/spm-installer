@@ -47,19 +47,25 @@
                     {
                         "network-port": 5000,
                         "valve-map": {
-                            "1": "air",
-                            "2": "water",
-                            "3": "dispense",
-                            "12": "waste"
+                            "1": "NPM",
+                            "2": "5005A",
+                            "3": "5005E",
+                            "4": "7502A",
+                            "5": "7505E",
+                            "6": "05A",
+                            "7": "DRUG",
+                            "8": "AIR_SAMPLE",
+                            "9": "WASTE",
+                            "11": "dispense"
                         }
                     },
                     {
                         "network-port": 5003,
                         "valve-map": {
-                            "1": "oil",
-                            "2": "toluene",
-                            "4": "dispense",
-                            "12": "waste"
+                            "1": "RELEASE_BUFFER",
+                            "2": "AIR_BUFFER",
+                            "3": "WATER_BUFFER",
+                            "11": "dispense"
                         }
                     }
                 ]
@@ -87,9 +93,8 @@
                         'from-valve': chemicalValve,
                         'to-valve': dispenseValve,
                         'volume': row[1].trim(),
-                        'well-x': row[2].trim(),
-                        'well-y': row[3].trim(),
-                        'speed': row[4].trim()
+                        'well': row[2].trim(),
+                        'speed': row[3].trim()
                     };
                 }
             }
@@ -100,7 +105,7 @@
         function compileRequests(info) {
             //ignore speed for now
             let move_request = `http://localhost:${info['xy-port']}/pman/move-to-well`
-            let move_data = `{"args":[${info['well-x']},${info['well-y']}]}`
+            let move_data = `{"args":["${info['well']}"]}`
             let transfer_request = `http://localhost:${info['spm-port']}/pman/transfer`
             let transfer_data = `{"args":[${info['from-valve']},${info['to-valve']},${info['volume']}]}`
             request_id += 2
